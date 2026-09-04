@@ -40,6 +40,8 @@ The player controls a runner constantly moving right at auto-scrolling speed bet
   build.
 - **Video:** original *Gravity Guy* gameplay https://youtu.be/Sdb7xFNk_nw?si=4Qafi_C8fFtZ_V3A&t=17
 
+<img width="640" height="360" alt="image" src="https://github.com/user-attachments/assets/76541fce-2d29-4349-bde3-7d7a94cf2de1" />
+
 ---
 
 ## 3. Core Game Loop
