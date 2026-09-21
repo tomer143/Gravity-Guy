@@ -9,7 +9,7 @@ public class SegmentPool : MonoBehaviour
     [SerializeField] private int maxPoolSize = 30;
 
     private Dictionary<int, ObjectPool<LevelSegment>> pools = new Dictionary<int, ObjectPool<LevelSegment>>();
-    private List<LevelSegment> activeSegments = new List<LevelSegment>();
+    private readonly List<LevelSegment> activeSegments = new();
 
     public IReadOnlyList<LevelSegment> ActiveSegments => activeSegments;
     public int PrefabCount => segmentPrefabs != null ? segmentPrefabs.Length : 0;
@@ -27,13 +27,12 @@ public class SegmentPool : MonoBehaviour
         segmentPrefabs = prefabs;
         pools.Clear();
 
-        for (int i = 0; i < segmentPrefabs.Length; i++)
+        for (int index = 0; index < segmentPrefabs.Length; index++)
         {
-            int index = i;
-            LevelSegment prefab = segmentPrefabs[i];
+            LevelSegment prefab = segmentPrefabs[index];
             prefab.Init(index, prefab.HasHazard);
 
-            ObjectPool<LevelSegment> pool = new ObjectPool<LevelSegment>(
+            ObjectPool<LevelSegment> pool = new(
                 createFunc: () =>
                 {
                     LevelSegment seg = Instantiate(prefab, transform);
