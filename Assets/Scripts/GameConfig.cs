@@ -16,7 +16,7 @@ public class GameConfig : ScriptableObject
 
     [Tooltip("Probability weight of hazard-bearing segment vs clear segment (0 to 1)")]
     [Range(0f, 1f)]
-    public float hazardDensity = 0.4f;
+    public float hazardDensity = 0.8f;
 
     [Tooltip("World units of travel per 1 point of score")]
     public float distanceUnitsPerPoint = 1.0f;
