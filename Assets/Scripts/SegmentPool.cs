@@ -29,14 +29,15 @@ public class SegmentPool : MonoBehaviour
 
         for (int index = 0; index < segmentPrefabs.Length; index++)
         {
+            int capturedIndex = index;
             LevelSegment prefab = segmentPrefabs[index];
-            prefab.Init(index, prefab.HasHazard);
+            prefab.Init(capturedIndex, prefab.HasHazard);
 
             ObjectPool<LevelSegment> pool = new(
                 createFunc: () =>
                 {
                     LevelSegment seg = Instantiate(prefab, transform);
-                    seg.Init(index, prefab.HasHazard);
+                    seg.Init(capturedIndex, prefab.HasHazard);
                     return seg;
                 },
                 actionOnGet: seg =>
@@ -56,7 +57,7 @@ public class SegmentPool : MonoBehaviour
                 maxSize: maxPoolSize
             );
 
-            pools[index] = pool;
+            pools[capturedIndex] = pool;
         }
     }
 

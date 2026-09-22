@@ -135,7 +135,7 @@ played for two minutes can chain 15+ consecutive flips without dying.
 
 | Asset | Variants / frames | Source & licence | Use |
 |---|---|---|---|
-| Runner sprite | 1 idle + 4-frame run cycle | Kenney.nl "Platformer Characters" (CC0) | Player character |
+| Runner sprite | 8-frame run cycle | https://pzuh.itch.io/the-robot-free-sprite
 | Floor/ceiling tile | 1 sprite | Kenney.nl "Platformer Pack Industrial" (CC0) | Level segments |
 | Spike hazard | 1 sprite | Kenney.nl "Platformer Pack Industrial" (CC0) | Obstacles |
 | Background | 1 sprite | Kenney.nl "Background Elements Remastered" (CC0) | Scrolling backdrop |

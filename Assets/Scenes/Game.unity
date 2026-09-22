@@ -1567,10 +1567,14 @@ MonoBehaviour:
   config: {fileID: 11400000, guid: 0757c6c13de84574d9689da2962b86de, type: 2}
   spriteRenderer: {fileID: 681048002}
   runSprites:
-  - {fileID: 21300000, guid: 8e8f843fa4f3a974ca92575cd96195ec, type: 3}
-  - {fileID: 21300000, guid: a89e16df3f4f88c48ad098a984cf9774, type: 3}
-  - {fileID: 21300000, guid: deaf1d905db9c8c41938fc806c46f21d, type: 3}
-  - {fileID: 21300000, guid: 98288414aae55c043a713aff3ec76ad6, type: 3}
+  - {fileID: 21300000, guid: d33a18428730db7419495f10716c6f2f, type: 3}
+  - {fileID: 21300000, guid: 76ec8917976c54e46ac7e48b6a83099f, type: 3}
+  - {fileID: 21300000, guid: a823e9e62e26fed4f949284f0be347e2, type: 3}
+  - {fileID: 21300000, guid: 606ac0158ddc5cd468f5e9b1ee92cee0, type: 3}
+  - {fileID: 21300000, guid: bfd09d53a29faf14d9974a3c5f81a2f5, type: 3}
+  - {fileID: 21300000, guid: a45cf139bf060234c8650634b761c31d, type: 3}
+  - {fileID: 21300000, guid: aa0f401d62a42a640b7106400253b6ef, type: 3}
+  - {fileID: 21300000, guid: 0fa4bbf8fa5317346aff7d7f8c38c8b4, type: 3}
   animationFps: 12
   groundLayer:
     serializedVersion: 2
@@ -1640,13 +1644,13 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.48, y: 0.48}
-    newSize: {x: 0.48, y: 0.48}
+    oldSize: {x: 1.0197842, y: 1}
+    newSize: {x: 1.0198, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.48, y: 0.48}
+  m_Size: {x: 0.5, y: 0.8}
   m_EdgeRadius: 0
 --- !u!212 &681048002
 SpriteRenderer:
@@ -1697,12 +1701,12 @@ SpriteRenderer:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 8e8f843fa4f3a974ca92575cd96195ec, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d33a18428730db7419495f10716c6f2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.48, y: 0.48}
+  m_Size: {x: 1.0198, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
