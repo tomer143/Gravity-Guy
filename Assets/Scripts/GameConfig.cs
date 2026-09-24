@@ -12,7 +12,7 @@ public class GameConfig : ScriptableObject
 
     [Header("Level Spawning")]
     [Tooltip("Width of one pooled level segment, in world units")]
-    public float segmentLength = 10.0f;
+    public float segmentLength = 9.8f;
 
     [Tooltip("Probability weight of hazard-bearing segment vs clear segment (0 to 1)")]
     [Range(0f, 1f)]
@@ -29,7 +29,7 @@ public class GameConfig : ScriptableObject
     public float ceilingY = 3.5f;
 
     [Tooltip("Tile thickness in world units")]
-    public float tileThickness = 0.8f;
+    public float tileThickness = 0.7f;
 
     [Tooltip("Fixed X position of the runner")]
     public float runnerX = -4.5f;

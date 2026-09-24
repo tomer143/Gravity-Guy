@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
   runSpeed: 6
   gravityStrength: 20
-  segmentLength: 10
+  segmentLength: 9.8
   hazardDensity: 0.4
   distanceUnitsPerPoint: 1
   floorY: -3.5

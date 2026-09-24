@@ -3,7 +3,8 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Hazard
   layers:
   - Default
   - TransparentFX
@@ -44,11 +45,11 @@ TagManager:
   - name: Background
     uniqueID: 1046142947
     locked: 0
-  - name: LevelGeometry
-    uniqueID: 609148001
-    locked: 0
   - name: Hazards
     uniqueID: 2085608483
+    locked: 0
+  - name: LevelGeometry
+    uniqueID: 609148001
     locked: 0
   - name: Player
     uniqueID: 2439544493
