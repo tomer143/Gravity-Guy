@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Sprite[] runSprites;
     [SerializeField] private float animationFps = 10f;
+    [SerializeField] private Sprite[] deathSprites;
+    [SerializeField] private float deathAnimationFps = 10f;
     [SerializeField] private LayerMask groundLayer;
 
     private Rigidbody2D rb;
@@ -23,6 +25,9 @@ public class PlayerController : MonoBehaviour
 
     private float animTimer = 0f;
     private int currentFrame = 0;
+
+    private float deathAnimTimer = 0f;
+    private int deathFrame = 0;
 
     public bool IsGrounded => isGrounded;
     public bool IsGravityInverted => isGravityInverted;
@@ -72,6 +77,8 @@ public class PlayerController : MonoBehaviour
         isGrounded = true;
         currentFrame = 0;
         animTimer = 0f;
+        deathFrame = 0;
+        deathAnimTimer = 0f;
     }
 
     public void SetControlsActive(bool active)
@@ -82,7 +89,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (!isAlive) return;
+        if (!isAlive)
+        {
+            UpdateDeathAnimation();
+            return;
+        }
 
         UpdateAnimation();
 
@@ -182,6 +193,21 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void UpdateDeathAnimation()
+    {
+        if (deathSprites == null || deathSprites.Length == 0 || spriteRenderer == null) return;
+
+        if (deathFrame >= deathSprites.Length - 1) return;
+
+        deathAnimTimer += Time.deltaTime;
+        if (deathAnimTimer >= 1f / deathAnimationFps)
+        {
+            deathAnimTimer -= 1f / deathAnimationFps;
+            deathFrame++;
+            spriteRenderer.sprite = deathSprites[deathFrame];
+        }
+    }
+
     private bool WasFlipTriggeredThisFrame()
     {
         if (Keyboard.current != null)
@@ -252,6 +278,13 @@ public class PlayerController : MonoBehaviour
         isAlive = false;
         isControlsActive = false;
         rb.simulated = false;
+
+        deathFrame = 0;
+        deathAnimTimer = 0f;
+        if (spriteRenderer != null && deathSprites != null && deathSprites.Length > 0)
+        {
+            spriteRenderer.sprite = deathSprites[0];
+        }
 
         onDied?.Invoke();
     }
