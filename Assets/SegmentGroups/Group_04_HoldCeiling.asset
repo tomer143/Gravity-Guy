@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce779c2affd4544b02c5bded5d47b03, type: 3}
+  m_Name: Group_04_HoldCeiling
+  m_EditorClassIdentifier: Assembly-CSharp::SegmentGroup
+  segments:
+  - {fileID: 2893601788329720551, guid: 1784b2dfdb9e7a14c831a321cdc62261, type: 3}
+  - {fileID: 7098012131858974116, guid: 739c12100e9d9134bbe42b9c30bbd087, type: 3}
+  - {fileID: 2893601788329720551, guid: 1784b2dfdb9e7a14c831a321cdc62261, type: 3}
+  - {fileID: 7098012131858974116, guid: 739c12100e9d9134bbe42b9c30bbd087, type: 3}
+  weight: 1.5

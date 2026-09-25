@@ -9,6 +9,8 @@ public class SegmentPool : MonoBehaviour
     [SerializeField] private int maxPoolSize = 30;
 
     private Dictionary<int, ObjectPool<LevelSegment>> pools = new Dictionary<int, ObjectPool<LevelSegment>>();
+    private readonly Dictionary<LevelSegment, int> prefabIndices = new();
+    private readonly List<LevelSegment> registeredPrefabs = new();
     private readonly List<LevelSegment> activeSegments = new();
 
     public IReadOnlyList<LevelSegment> ActiveSegments => activeSegments;
@@ -26,39 +28,60 @@ public class SegmentPool : MonoBehaviour
     {
         segmentPrefabs = prefabs;
         pools.Clear();
+        prefabIndices.Clear();
+        registeredPrefabs.Clear();
 
         for (int index = 0; index < segmentPrefabs.Length; index++)
         {
-            int capturedIndex = index;
-            LevelSegment prefab = segmentPrefabs[index];
-            prefab.Init(capturedIndex, prefab.HasHazard);
-
-            ObjectPool<LevelSegment> pool = new(
-                createFunc: () =>
-                {
-                    LevelSegment seg = Instantiate(prefab, transform);
-                    seg.Init(capturedIndex, prefab.HasHazard);
-                    return seg;
-                },
-                actionOnGet: seg =>
-                {
-                    seg.gameObject.SetActive(true);
-                },
-                actionOnRelease: seg =>
-                {
-                    seg.gameObject.SetActive(false);
-                },
-                actionOnDestroy: seg =>
-                {
-                    if (seg != null) Destroy(seg.gameObject);
-                },
-                collectionCheck: false,
-                defaultCapacity: defaultCapacity,
-                maxSize: maxPoolSize
-            );
-
-            pools[capturedIndex] = pool;
+            RegisterPrefab(segmentPrefabs[index]);
         }
+    }
+
+    private int RegisterPrefab(LevelSegment prefab)
+    {
+        if (prefabIndices.TryGetValue(prefab, out int existingIndex)) return existingIndex;
+
+        int capturedIndex = registeredPrefabs.Count;
+        registeredPrefabs.Add(prefab);
+        prefabIndices[prefab] = capturedIndex;
+
+        ObjectPool<LevelSegment> pool = new(
+            createFunc: () =>
+            {
+                LevelSegment seg = Instantiate(prefab, transform);
+                seg.Init(capturedIndex, prefab.HasHazard);
+                return seg;
+            },
+            actionOnGet: seg =>
+            {
+                seg.gameObject.SetActive(true);
+            },
+            actionOnRelease: seg =>
+            {
+                seg.gameObject.SetActive(false);
+            },
+            actionOnDestroy: seg =>
+            {
+                if (seg != null) Destroy(seg.gameObject);
+            },
+            collectionCheck: false,
+            defaultCapacity: defaultCapacity,
+            maxSize: maxPoolSize
+        );
+
+        pools[capturedIndex] = pool;
+        return capturedIndex;
+    }
+
+    public LevelSegment GetSegment(LevelSegment prefab)
+    {
+        if (prefab == null)
+        {
+            Debug.LogError("[SegmentPool] Tried to spawn a null segment prefab");
+            return null;
+        }
+
+        return GetSegment(RegisterPrefab(prefab));
     }
 
     public LevelSegment GetSegment(int prefabIndex)

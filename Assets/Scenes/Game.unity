@@ -3071,6 +3071,19 @@ MonoBehaviour:
   despawnX: -18
   spawnAheadX: 35
   initialSafeSegments: 3
+  segmentGroups:
+  - {fileID: 11400000, guid: e5dc0374242c4adeaf9eb0824f5aedb3, type: 2}
+  - {fileID: 11400000, guid: 2fd04f7dd3ea47bc96898b9f9211eed0, type: 2}
+  - {fileID: 11400000, guid: 1766b51bb66d443a82734e83d7748a9c, type: 2}
+  - {fileID: 11400000, guid: 4df561d87cee47f8ac7367feabd8b265, type: 2}
+  - {fileID: 11400000, guid: cb1830d4bb96491384056c5b219c67a8, type: 2}
+  - {fileID: 11400000, guid: 70f43329c94a4deb93c2bc8f5b96a48c, type: 2}
+  - {fileID: 11400000, guid: 3258d174757946969c9fb5cc0b7eb81e, type: 2}
+  - {fileID: 11400000, guid: 88f187f07505433aa2cbeb89da9c8269, type: 2}
+  - {fileID: 11400000, guid: 64e28ae86fd64826983c50d136901531, type: 2}
+  - {fileID: 11400000, guid: ddfa118b96194125a7a473efe3c7da16, type: 2}
+  - {fileID: 11400000, guid: d3fd924286424942a859ec79900239c5, type: 2}
+  - {fileID: 11400000, guid: 2f71d6bdac934f7ba333c64822fa95e5, type: 2}
 --- !u!4 &2016718540
 Transform:
   m_ObjectHideFlags: 0

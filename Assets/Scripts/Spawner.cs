@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Spawner : MonoBehaviour
@@ -10,8 +11,13 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float spawnAheadX = 35.0f;
     [SerializeField] private int initialSafeSegments = 3;
 
+    [Header("Segment Groups")]
+    [Tooltip("Groups of segments spawned back to back. When empty, random single hazard segments are spawned instead.")]
+    [SerializeField] private SegmentGroup[] segmentGroups;
+
     private float nextSpawnX = 0f;
     private bool isScrolling = false;
+    private readonly Queue<LevelSegment> pendingGroupSegments = new();
 
     public void Setup(SegmentPool segmentPool, GameConfig gameConfig)
     {
@@ -23,6 +29,7 @@ public class Spawner : MonoBehaviour
     {
         if (pool == null) return;
         pool.ReturnAll();
+        pendingGroupSegments.Clear();
 
         // Start spawning from left behind the runner (-10) up to spawnAheadX
         float startX = -10.0f;
@@ -31,13 +38,13 @@ public class Spawner : MonoBehaviour
         // Spawn initial safe segments
         for (int i = 0; i < initialSafeSegments; i++)
         {
-            SpawnSegment(isHazard: false);
+            SpawnSafeSegment();
         }
 
         // Fill remaining up to spawnAheadX
         while (nextSpawnX < spawnAheadX)
         {
-            SpawnSegment(isHazard: true);
+            SpawnHazardSegment();
         }
 
         isScrolling = false;
@@ -72,26 +79,77 @@ public class Spawner : MonoBehaviour
         // Spawn new segments on the right as needed
         while (nextSpawnX < spawnAheadX)
         {
-            SpawnSegment(isHazard: true);
+            SpawnHazardSegment();
         }
     }
 
-    private void SpawnSegment(bool isHazard)
+    private void SpawnSafeSegment()
     {
         if (pool == null || pool.PrefabCount == 0) return;
 
-        int selectedPrefabIndex = 0;
+        PlaceSegment(pool.GetSegment(0));
+    }
 
-        if (isHazard && pool.PrefabCount > 1)
+    private void SpawnHazardSegment()
+    {
+        if (pool == null) return;
+
+        if (pendingGroupSegments.Count == 0)
         {
-            selectedPrefabIndex = Random.Range(1, pool.PrefabCount);
+            SegmentGroup group = PickGroup();
+            if (group != null)
+            {
+                foreach (LevelSegment prefab in group.segments)
+                {
+                    if (prefab != null) pendingGroupSegments.Enqueue(prefab);
+                }
+            }
         }
 
-        LevelSegment seg = pool.GetSegment(selectedPrefabIndex);
-        if (seg != null)
+        if (pendingGroupSegments.Count > 0)
         {
-            seg.transform.position = new Vector3(nextSpawnX, 0f, 0f);
+            PlaceSegment(pool.GetSegment(pendingGroupSegments.Dequeue()));
+            return;
+        }
+
+        if (pool.PrefabCount == 0) return;
+        int selectedPrefabIndex = pool.PrefabCount > 1 ? Random.Range(1, pool.PrefabCount) : 0;
+        PlaceSegment(pool.GetSegment(selectedPrefabIndex));
+    }
+
+    private SegmentGroup PickGroup()
+    {
+        if (segmentGroups == null) return null;
+
+        float totalWeight = 0f;
+        foreach (SegmentGroup group in segmentGroups)
+        {
+            if (group != null && group.IsValid) totalWeight += group.weight;
+        }
+
+        if (totalWeight <= 0f) return null;
+
+        float roll = Random.value * totalWeight;
+        SegmentGroup picked = null;
+        foreach (SegmentGroup group in segmentGroups)
+        {
+            if (group == null || !group.IsValid) continue;
+            picked = group;
+            roll -= group.weight;
+            if (roll < 0f) break;
+        }
+        return picked;
+    }
+
+    private void PlaceSegment(LevelSegment seg)
+    {
+        if (seg == null)
+        {
             nextSpawnX += config.segmentLength;
+            return;
         }
+
+        seg.transform.position = new Vector3(nextSpawnX, 0f, 0f);
+        nextSpawnX += config.segmentLength;
     }
 }
