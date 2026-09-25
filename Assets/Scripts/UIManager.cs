@@ -21,8 +21,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI retryPromptText;
 
     [Header("Speed Indicator")]
-    [SerializeField] private float speedTextFontSize = 36f;
-    [SerializeField] private float speedTextGap = 0f;
     [SerializeField] private Color speedTextColor = new Color(1f, 1f, 1f, 0.85f);
     [SerializeField] private Color speedUpFlashColor = new Color(1f, 0.85f, 0.2f, 1f);
     [SerializeField] private float speedUpPulseDuration = 0.6f;
