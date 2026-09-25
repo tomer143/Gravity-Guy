@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,14 +15,25 @@ public class UIManager : MonoBehaviour
     [Header("Text Displays")]
     [SerializeField] private TextMeshProUGUI menuBestScoreText;
     [SerializeField] private TextMeshProUGUI hudScoreText;
+    [SerializeField] private TextMeshProUGUI hudSpeedText;
     [SerializeField] private TextMeshProUGUI gameOverScoreText;
     [SerializeField] private TextMeshProUGUI gameOverBestScoreText;
     [SerializeField] private TextMeshProUGUI retryPromptText;
+
+    [Header("Speed Indicator")]
+    [SerializeField] private float speedTextFontSize = 36f;
+    [SerializeField] private float speedTextGap = 0f;
+    [SerializeField] private Color speedTextColor = new Color(1f, 1f, 1f, 0.85f);
+    [SerializeField] private Color speedUpFlashColor = new Color(1f, 0.85f, 0.2f, 1f);
+    [SerializeField] private float speedUpPulseDuration = 0.6f;
+    [SerializeField] private float speedUpPulseScale = 1.4f;
 
     [Header("Buttons")]
     [SerializeField] private Button pauseButton;
     [SerializeField] private Button resumeButton;
     [SerializeField] private Button retryButton;
+
+    private Coroutine speedPulseCoroutine;
 
     private void Awake()
     {
@@ -69,6 +81,41 @@ public class UIManager : MonoBehaviour
     public void UpdateScore(int currentScore)
     {
         if (hudScoreText) hudScoreText.text = currentScore.ToString();
+    }
+
+    public void UpdateSpeed(int speedLevel, bool increased)
+    {
+        if (!hudSpeedText) return;
+
+        hudSpeedText.text = $"SPEED {speedLevel}";
+
+        if (speedPulseCoroutine != null) StopCoroutine(speedPulseCoroutine);
+        if (increased && isActiveAndEnabled)
+        {
+            speedPulseCoroutine = StartCoroutine(SpeedUpPulse());
+        }
+        else
+        {
+            hudSpeedText.transform.localScale = Vector3.one;
+            hudSpeedText.color = speedTextColor;
+        }
+    }
+
+    private IEnumerator SpeedUpPulse()
+    {
+        Transform t = hudSpeedText.transform;
+        float elapsed = 0f;
+        while (elapsed < speedUpPulseDuration)
+        {
+            float k = elapsed / speedUpPulseDuration;
+            t.localScale = Vector3.one * Mathf.Lerp(speedUpPulseScale, 1f, k);
+            hudSpeedText.color = Color.Lerp(speedUpFlashColor, speedTextColor, k);
+            elapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        t.localScale = Vector3.one;
+        hudSpeedText.color = speedTextColor;
+        speedPulseCoroutine = null;
     }
 
     public void ShowGameOver(int finalScore, int bestScore, bool allowRetry)

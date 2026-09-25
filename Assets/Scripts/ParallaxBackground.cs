@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class ParallaxBackground : MonoBehaviour
 {
-    [SerializeField] private GameConfig config;
     [SerializeField] private float scrollRatio = 0.25f;
     [SerializeField] private float width = 20.0f;
     [SerializeField] private Transform[] backgroundParts;
@@ -12,7 +11,7 @@ public class ParallaxBackground : MonoBehaviour
         if (GameManager.Instance == null || GameManager.Instance.CurrentState != GameState.Playing)
             return;
 
-        float speed = config != null ? config.runSpeed * scrollRatio : 1.5f;
+        float speed = GameManager.Instance.CurrentSpeed * scrollRatio;
         float moveDistance = speed * Time.deltaTime;
 
         if (backgroundParts == null || backgroundParts.Length == 0) return;

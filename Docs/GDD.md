@@ -80,8 +80,12 @@ stateDiagram-v2
 
 | Parameter | What it controls | First guess |
 |---|---|---|
-| `runSpeed` | Constant horizontal scroll speed of the level (and runner's felt forward speed) | 6 u/s |
-| `gravityStrength` | Downward/upward acceleration applied to the runner at all times | 20 u/s² |
+| `runSpeed` | Starting horizontal scroll speed of the level (and runner's felt forward speed) | 7 u/s |
+| `pointsPerSpeedStep` | Speed increases each time the score passes a multiple of this | 100 pts |
+| `speedIncreasePerStep` | Added to the scroll speed at each step; shown in the HUD as "SPEED n" under the score | 0.5 u/s |
+| `maxRunSpeed` | Cap on the scroll speed | 10 u/s |
+| `flipDistanceCompensation` | How much gravity (and the flip kick) grows with speed; at 1, gravity scales with speed² so a flip always covers the same distance and every segment stays passable | 1 |
+| `gravityStrength` | Downward/upward acceleration applied to the runner at the starting speed | 20 u/s² |
 | `segmentLength` | Width of one pooled level segment, in world units | 9.8 u |
 | `distanceUnitsPerPoint` | World units of travel per 1 point of score | 1 u = 1 pt |
 

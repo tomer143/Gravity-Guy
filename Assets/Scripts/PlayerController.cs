@@ -123,7 +123,7 @@ public class PlayerController : MonoBehaviour
             pendingFlip = false;
         }
 
-        float gravityStrength = config != null ? config.gravityStrength : 20f;
+        float gravityStrength = (config != null ? config.gravityStrength : 20f) * SpeedRatio * SpeedRatio;
         float direction = isGravityInverted ? 1.0f : -1.0f;
         rb.linearVelocity += new Vector2(0f, direction * gravityStrength * Time.fixedDeltaTime);
 
@@ -144,11 +144,22 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private float SpeedRatio
+    {
+        get
+        {
+            if (config == null || config.runSpeed <= 0f || GameManager.Instance == null) return 1f;
+            float ratio = GameManager.Instance.CurrentSpeed / config.runSpeed;
+            return Mathf.Pow(ratio, config.flipDistanceCompensation);
+        }
+    }
+
     private void FlipGravity()
     {
         isGravityInverted = !isGravityInverted;
 
-        rb.linearVelocity = new Vector2(0f, isGravityInverted ? 1.5f : -1.5f);
+        float flipKick = 1.5f * SpeedRatio;
+        rb.linearVelocity = new Vector2(0f, isGravityInverted ? flipKick : -flipKick);
 
         // Mirror runner sprite vertically
         if (spriteRenderer != null)

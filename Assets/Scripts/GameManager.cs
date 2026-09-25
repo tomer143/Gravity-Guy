@@ -27,6 +27,8 @@ public class GameManager : MonoBehaviour
     private GameState currentState = GameState.MainMenu;
     private float distanceTraveled = 0f;
     private int currentScore = 0;
+    private int speedLevel = 0;
+    private float currentSpeed = 0f;
     private int bestScore = 0;
     private bool isPaused = false;
     private bool canRetry = false;
@@ -34,6 +36,8 @@ public class GameManager : MonoBehaviour
 
     public GameState CurrentState => currentState;
     public int CurrentScore => currentScore;
+    public float CurrentSpeed => currentSpeed > 0f ? currentSpeed : (config != null ? config.runSpeed : 0f);
+    public int SpeedLevel => speedLevel;
     public int BestScore => bestScore;
     public bool IsPaused => isPaused;
 
@@ -75,6 +79,7 @@ public class GameManager : MonoBehaviour
         Time.timeScale = 1f;
         isPaused = false;
         canRetry = false;
+        SetSpeedLevel(0);
 
         if (spawner != null)
         {
@@ -102,6 +107,7 @@ public class GameManager : MonoBehaviour
         canRetry = false;
         distanceTraveled = 0f;
         currentScore = 0;
+        SetSpeedLevel(0);
 
         if (spawner != null)
         {
@@ -187,7 +193,7 @@ public class GameManager : MonoBehaviour
         if (config != null)
         {
             float dt = Time.fixedDeltaTime;
-            distanceTraveled += config.runSpeed * dt;
+            distanceTraveled += CurrentSpeed * dt;
             int newScore = Mathf.FloorToInt(distanceTraveled / Mathf.Max(0.01f, config.distanceUnitsPerPoint));
             if (newScore != currentScore)
             {
@@ -196,7 +202,30 @@ public class GameManager : MonoBehaviour
                 {
                     uiManager.UpdateScore(currentScore);
                 }
+
+                int newSpeedLevel = currentScore / Mathf.Max(1, config.pointsPerSpeedStep);
+                if (newSpeedLevel != speedLevel)
+                {
+                    SetSpeedLevel(newSpeedLevel);
+                }
             }
+        }
+    }
+
+    private void SetSpeedLevel(int level)
+    {
+        bool increased = level > speedLevel;
+        speedLevel = level;
+
+        if (config != null)
+        {
+            float maxSpeed = Mathf.Max(config.runSpeed, config.maxRunSpeed);
+            currentSpeed = Mathf.Min(config.runSpeed + level * config.speedIncreasePerStep, maxSpeed);
+        }
+
+        if (uiManager != null)
+        {
+            uiManager.UpdateSpeed(speedLevel + 1, increased);
         }
     }
 

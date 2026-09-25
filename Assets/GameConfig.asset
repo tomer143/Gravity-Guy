@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d981712af87864f95a5b1eeba276d1, type: 3}
   m_Name: GameConfig
   m_EditorClassIdentifier: Assembly-CSharp::GameConfig
-  runSpeed: 6
+  runSpeed: 7
   gravityStrength: 20
+  pointsPerSpeedStep: 100
+  speedIncreasePerStep: 0.5
+  maxRunSpeed: 10
+  flipDistanceCompensation: 1
   segmentLength: 9.8
   distanceUnitsPerPoint: 1
   floorY: -3.5

@@ -59,7 +59,8 @@ public class Spawner : MonoBehaviour
     {
         if (!isScrolling || pool == null || config == null) return;
 
-        float distance = config.runSpeed * Time.deltaTime;
+        float speed = GameManager.Instance != null ? GameManager.Instance.CurrentSpeed : config.runSpeed;
+        float distance = speed * Time.deltaTime;
         nextSpawnX -= distance;
 
         // Move all active segments
