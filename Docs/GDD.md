@@ -83,7 +83,6 @@ stateDiagram-v2
 | `runSpeed` | Constant horizontal scroll speed of the level (and runner's felt forward speed) | 6 u/s |
 | `gravityStrength` | Downward/upward acceleration applied to the runner at all times | 20 u/s² |
 | `segmentLength` | Width of one pooled level segment, in world units | 9.8 u |
-| `hazardDensity` | Probability weight of a hazard-bearing segment vs. a clear segment when picking the next segment from the pool | 0.4 |
 | `distanceUnitsPerPoint` | World units of travel per 1 point of score | 1 u = 1 pt |
 
 **Where these live:** a `GameConfig` ScriptableObject referenced by `PlayerController` and `Spawner`, so

@@ -14,10 +14,6 @@ public class GameConfig : ScriptableObject
     [Tooltip("Width of one pooled level segment, in world units")]
     public float segmentLength = 9.8f;
 
-    [Tooltip("Probability weight of hazard-bearing segment vs clear segment (0 to 1)")]
-    [Range(0f, 1f)]
-    public float hazardDensity = 0.8f;
-
     [Tooltip("World units of travel per 1 point of score")]
     public float distanceUnitsPerPoint = 1.0f;
 

@@ -15,7 +15,6 @@ MonoBehaviour:
   runSpeed: 6
   gravityStrength: 20
   segmentLength: 9.8
-  hazardDensity: 0.4
   distanceUnitsPerPoint: 1
   floorY: -3.5
   ceilingY: 3.5

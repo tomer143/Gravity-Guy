@@ -31,13 +31,13 @@ public class Spawner : MonoBehaviour
         // Spawn initial safe segments
         for (int i = 0; i < initialSafeSegments; i++)
         {
-            SpawnSegment(isHazardAllowed: false);
+            SpawnSegment(isHazard: false);
         }
 
         // Fill remaining up to spawnAheadX
         while (nextSpawnX < spawnAheadX)
         {
-            SpawnSegment(isHazardAllowed: true);
+            SpawnSegment(isHazard: true);
         }
 
         isScrolling = false;
@@ -72,24 +72,19 @@ public class Spawner : MonoBehaviour
         // Spawn new segments on the right as needed
         while (nextSpawnX < spawnAheadX)
         {
-            SpawnSegment(isHazardAllowed: true);
+            SpawnSegment(isHazard: true);
         }
     }
 
-    private void SpawnSegment(bool isHazardAllowed)
+    private void SpawnSegment(bool isHazard)
     {
         if (pool == null || pool.PrefabCount == 0) return;
 
-        int selectedPrefabIndex = 0; // default to clear segment
+        int selectedPrefabIndex = 0;
 
-        if (isHazardAllowed && pool.PrefabCount > 1)
+        if (isHazard && pool.PrefabCount > 1)
         {
-            float roll = Random.value;
-            if (roll < config.hazardDensity)
-            {
-                // Select a hazard prefab (index 1 to PrefabCount - 1)
-                selectedPrefabIndex = Random.Range(1, pool.PrefabCount);
-            }
+            selectedPrefabIndex = Random.Range(1, pool.PrefabCount);
         }
 
         LevelSegment seg = pool.GetSegment(selectedPrefabIndex);
