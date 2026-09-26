@@ -1950,12 +1950,10 @@ MonoBehaviour:
   pausePanel: {fileID: 340570781}
   menuBestScoreText: {fileID: 8070164123854393099}
   hudScoreText: {fileID: 1331246350}
-  hudSpeedText: {fileID: 0}
+  hudSpeedText: {fileID: 723255299}
   gameOverScoreText: {fileID: 1829506066}
   gameOverBestScoreText: {fileID: 1038928520}
   retryPromptText: {fileID: 1279611339}
-  speedTextFontSize: 36
-  speedTextGap: 0
   speedTextColor: {r: 1, g: 1, b: 1, a: 0.85}
   speedUpFlashColor: {r: 1, g: 0.85, b: 0.2, a: 1}
   speedUpPulseDuration: 0.6
