@@ -141,7 +141,7 @@ played for two minutes can chain 15+ consecutive flips without dying.
 | Runner sprite | 8-frame run cycle | https://pzuh.itch.io/the-robot-free-sprite | Player character |
 | Floor/ceiling tile | 1 sprite | Kenney.nl "Platformer Pack Industrial" (CC0) | Level segments |
 | Spike hazard | 1 sprite | Kenney.nl "Platformer Pack Industrial" (CC0) | Obstacles |
-| Background | 1 sprite | Kenney.nl "Background Elements Remastered" (CC0) | Scrolling backdrop |
+| Background | 1 sprite | https://screamingbrainstudios.itch.io/seamless-space-backgrounds | Scrolling backdrop |
 | Flip SFX | 1 clip | Kenney.nl "Digital Audio" (CC0) | Played on each gravity flip |
 | Death SFX | 1 clip | Kenney.nl "Digital Audio" (CC0) | Played on hazard/gap collision |
 
