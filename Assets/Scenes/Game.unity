@@ -614,8 +614,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AudioManager
   sfxSource: {fileID: 0}
   musicSource: {fileID: 0}
-  flipClip: {fileID: 8300000, guid: 57f318a738494684581f0cd38ba3559e, type: 3}
-  deathClip: {fileID: 8300000, guid: 5ec3d77acc92f4445aed1ce3db4d5e50, type: 3}
+  flipClip: {fileID: 8300000, guid: fd99e4431b3f2db4ba723a5f1db76086, type: 3}
+  deathClip: {fileID: 8300000, guid: d363305cfe8ed1c4684f748193279409, type: 3}
   bgmClip: {fileID: 8300000, guid: 1a370da4639b16441be17a89edd6b83b, type: 3}
 --- !u!4 &222217105
 Transform:
