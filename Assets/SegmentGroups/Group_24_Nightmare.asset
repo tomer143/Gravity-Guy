@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ce779c2affd4544b02c5bded5d47b03, type: 3}
+  m_Name: Group_24_Nightmare
+  m_EditorClassIdentifier: Assembly-CSharp::SegmentGroup
+  segments:
+  - {fileID: 7865435379715126429, guid: edfb846a689eee9ded13b6e2eca02eaf, type: 3}
+  - {fileID: 8432464953351486450, guid: 95871685a81c194979048ed893fedc02, type: 3}
+  - {fileID: 8722762339951228741, guid: e8020d277c1cb853502314e982f67fc1, type: 3}
+  - {fileID: 8064871037495565521, guid: 05de89d55766228314d805fe69dc06f6, type: 3}
+  - {fileID: 3917885546812955214, guid: 4ec85a0c02ef46f6c44554d91abd98d2, type: 3}
+  weight: 0.3
