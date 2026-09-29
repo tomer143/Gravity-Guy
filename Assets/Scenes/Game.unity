@@ -616,7 +616,7 @@ MonoBehaviour:
   musicSource: {fileID: 0}
   flipClip: {fileID: 8300000, guid: fd99e4431b3f2db4ba723a5f1db76086, type: 3}
   deathClip: {fileID: 8300000, guid: d363305cfe8ed1c4684f748193279409, type: 3}
-  bgmClip: {fileID: 8300000, guid: 1a370da4639b16441be17a89edd6b83b, type: 3}
+  bgmClip: {fileID: 8300000, guid: b915efee9dd949c0a034e87dfdbbf493, type: 3}
 --- !u!4 &222217105
 Transform:
   m_ObjectHideFlags: 0

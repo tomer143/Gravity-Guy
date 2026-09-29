@@ -142,6 +142,7 @@ played for two minutes can chain 15+ consecutive flips without dying.
 | Floor/ceiling tile | 1 sprite | Kenney.nl "Platformer Pack Industrial" (CC0) | Level segments |
 | Spike hazard | 1 sprite | Kenney.nl "Platformer Pack Industrial" (CC0) | Obstacles |
 | Background | 1 sprite | https://screamingbrainstudios.itch.io/seamless-space-backgrounds | Scrolling backdrop |
+| Game Music | 1 clip | https://freesound.org/people/Seth_Makes_Sounds/sounds/684511 | Played in the background while the game is running
 | Flip SFX | 1 clip | https://pixabay.com/sound-effects/film-special-effects-pixel-jump-319167 (CC0) | Played on each gravity flip |
 | Death SFX | 1 clip | https://licensing.routenote.com/sound-effect/sci-fi-gun-5 (CC0) | Played on hazard/gap collision |
 
