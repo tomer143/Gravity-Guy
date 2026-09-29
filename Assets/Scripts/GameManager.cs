@@ -50,6 +50,8 @@ public class GameManager : MonoBehaviour
         }
         Instance = this;
 
+        Application.targetFrameRate = 60;
+
         bestScore = PlayerPrefs.GetInt(BEST_SCORE_KEY, 0);
     }
 
@@ -296,6 +298,14 @@ public class GameManager : MonoBehaviour
         if (currentState != GameState.GameOver || !canRetry) return;
 
         EnterGetReady();
+    }
+
+    private void OnApplicationPause(bool pauseStatus)
+    {
+        if (pauseStatus && !isPaused && (currentState == GameState.Playing || currentState == GameState.GetReady))
+        {
+            TogglePause();
+        }
     }
 
     public void TogglePause()
