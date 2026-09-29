@@ -5,11 +5,11 @@
 | **Working title** | Gravity Guy |
 | **Team** | Tomer Levitski |
 | **Genre** | Arcade / endless side-scrolling runner / reflex-timing score-chaser |
-| **Target platform** | Mobile (Android/iOS touch), PC (Windows), standalone build |
+| **Target platform** | Android, PC (Windows), standalone build |
 | **Engine / Unity version** | Unity 6 (6000.3.12f1), URP, 3D |
 | **Orientation & reference resolution** | Landscape, 1920x1080 reference |
 | **Expected session length** | 15 seconds - 3 minutes |
-| **Document version** | v0.1 - 2026-09-04 |
+| **Document version** | v0.8 - 2026-09-29 |
 
 ---
 
@@ -86,7 +86,7 @@ stateDiagram-v2
 | `maxRunSpeed` | Cap on the scroll speed | 10 u/s |
 | `flipDistanceCompensation` | How much gravity (and the flip kick) grows with speed; at 1, gravity scales with speed² so a flip always covers the same distance and every segment stays passable | 1 |
 | `gravityStrength` | Downward/upward acceleration applied to the runner at the starting speed | 20 u/s² |
-| `segmentLength` | Width of one pooled level segment, in world units | 9.8 u |
+| `segmentLength` | Spawn spacing between pooled level segments, in world units. Segment floor/ceiling tiles are 10 u wide, so neighbours overlap by 0.2 u to hide seams | 9.8 u |
 | `distanceUnitsPerPoint` | World units of travel per 1 point of score | 1 u = 1 pt |
 
 **Where these live:** a `GameConfig` ScriptableObject referenced by `PlayerController` and `Spawner`, so
@@ -138,18 +138,18 @@ played for two minutes can chain 15+ consecutive flips without dying.
 
 | Asset | Variants / frames | Source & licence | Use |
 |---|---|---|---|
-| Runner sprite | 8-frame run cycle | https://pzuh.itch.io/the-robot-free-sprite | Player character |
+| Runner sprite | 8-frame run cycle + 10-frame death cycle | https://pzuh.itch.io/the-robot-free-sprite | Player character |
 | Floor/ceiling tile | 1 sprite | Kenney.nl "Platformer Pack Industrial" (CC0) | Level segments |
 | Spike hazard | 1 sprite | Kenney.nl "Platformer Pack Industrial" (CC0) | Obstacles |
-| Background | 1 sprite | https://screamingbrainstudios.itch.io/seamless-space-backgrounds | Scrolling backdrop |
-| Game Music | 1 clip | https://freesound.org/people/Seth_Makes_Sounds/sounds/684511 | Played in the background while the game is running
-| Flip SFX | 1 clip | https://pixabay.com/sound-effects/film-special-effects-pixel-jump-319167 (CC0) | Played on each gravity flip |
-| Death SFX | 1 clip | https://licensing.routenote.com/sound-effect/sci-fi-gun-5 (CC0) | Played on hazard/gap collision |
+| Background | 1 sprite | https://screamingbrainstudios.itch.io/seamless-space-backgrounds (CC0) | Scrolling backdrop |
+| Game music | 1 clip | "Simple Game Music Loop", https://freesound.org/people/Seth_Makes_Sounds/sounds/684511 (CC0) | Played in the background while the game is running |
+| Flip SFX | 1 clip | "Pixel Jump" by Lumora_Studios, https://pixabay.com/sound-effects/film-special-effects-pixel-jump-319167 (Pixabay Content License) | Played on each gravity flip |
+| Death SFX | 1 clip | "Sci-Fi Gun 5", https://licensing.routenote.com/sound-effect/sci-fi-gun-5 (CC0) | Played on hazard/gap collision |
 
-**Licence note:** all placeholder assets are CC0 (Kenney.nl), free for both this private coursework build
-and any future public release with no attribution required. If final art is instead hand-drawn or sourced
-elsewhere for the graded submission, this table will be updated before submission - no asset will be used
-under a licence that forbids coursework use.
+**Licence note:** the Kenney.nl placeholders have all been replaced. The background, music and death SFX
+are CC0; the flip SFX is under the Pixabay Content License (free for personal and commercial use, no
+attribution required); the robot sprites are a free pack from pzuh. All are usable for this coursework build and a future public release.
+before submission - no asset will be used under a licence that forbids coursework use.
 
 **Technical art rules:** Point (no filter) import for all sprites, PPU 100, single `SpriteAtlas` for all
 gameplay sprites, sorting layers back→front: `Background` → `LevelGeometry` → `Hazards` → `Player` → `UI`.
@@ -239,8 +239,9 @@ death learnable and fair even though the constant is no longer global for the wh
 ### 8.3 Explicitly out of scope - we are **not** building these
 
 - Multiplayer, online leaderboards, or any networked/backend service
-- Difficulty ramping, power-ups, multiple game modes, or level select
-- Ragdoll physics or any death animation beyond a simple sprite/particle swap
+- Difficulty ramping beyond the capped speed increase (see `pointsPerSpeedStep` / `maxRunSpeed`), power-ups,
+  multiple game modes, or level select
+- Ragdoll physics or any death animation beyond a short sprite-frame animation (the robot's 10-frame death cycle)
 - A save system beyond a single `PlayerPrefs` high score
 - iOS builds (Android + Windows builds only)
 
@@ -250,3 +251,11 @@ death learnable and fair even though the constant is no longer global for the wh
 
 | Version | Date | Change |
 |---|---|---|
+| v0.1 | 2026-09-04 | First GDD draft: high concept, pillars, core loop, state machine, tuning parameters, asset list and scope, plus a reference image. |
+| v0.2 | 2026-09-21 | First playable build. `Game` scene with `GameManager`, `PlayerController`, `Spawner`, `SegmentPool`, `UIManager`, `AudioManager`, `CameraShake` and `ParallaxBackground`; `GameConfig` ScriptableObject; 6 segment prefabs (Clear, Gap Floor/Ceiling, Hazard Floor/Ceiling/Alternating); placeholder sprites, BGM, flip and death SFX. `hazardDensity` raised from 0.4 to 0.8 in code. Flips are only accepted while grounded. |
+| v0.3 | 2026-09-22 | Runner art swapped from the 4-frame Kenney placeholder to the 8-frame robot run cycle (pzuh, "The Robot Free Sprite"); runner collider resized to fit. Fixed a closure bug in `SegmentPool` that captured the wrong prefab index. Main camera position fixed. |
+| v0.4 | 2026-09-24 | New spike sprite and a reusable `Spike` prefab used by all hazard segments. 10-frame death animation plays when the runner dies. New floor/ceiling tile sprite; `tileThickness` changed from 0.8 to 0.7 and `segmentLength` from 10 to 9.8. |
+| v0.5 | 2026-09-25 | `hazardDensity` removed: after the opening safe segments, every spawned segment is a hazard segment. Added `SegmentGroup` ScriptableObjects: the spawner picks a hand-authored sequence of segments by weight and plays it in order (12 groups, e.g. First Flip, Zigzag, Gap Weave, Gauntlet). Added a speed ramp: `runSpeed` 6 → 7 u/s, +0.5 u/s every 100 points, capped at 10 u/s. Gravity and the flip kick scale with speed (`flipDistanceCompensation`) so a flip always covers the same distance. HUD shows "SPEED n" and pulses when speed goes up. |
+| v0.6 | 2026-09-26 | Seamless space background (Screaming Brain Studios) replaces the Kenney backdrop. Speed text layout adjusted in the scene. Unity's default URP tutorial files removed. Fixed the runner row in the asset table. |
+| v0.7 | 2026-09-28 | 15 new segment prefabs covering new obstacle types (mines, floating platforms, spike carpets, pinch/jaws/split/rapid spike patterns, leap and crossover gaps) and 12 new segment groups (Middle Lane through Nightmare), for 21 segments and 24 groups in total. New death SFX ("Sci-Fi Gun 5") and flip SFX ("Pixel Jump"), both switched from .wav to .mp3. |
+| v0.8 | 2026-09-29 | New background music track (Seth_Makes_Sounds, freesound #684511). Segment floor/ceiling tiles widened from 9.8 to 10 u to close seams, and sorting layers fixed on all segment prefabs. Main-menu subtitle ("ONE INPUT. TOTAL COMMITMENT.") removed. GDD synced with the build: asset sources and licences updated, speed ramp and death animation allowed in scope, `segmentLength` overlap documented. |
