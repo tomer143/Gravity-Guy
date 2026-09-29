@@ -6,10 +6,10 @@
 | **Team** | Tomer Levitski |
 | **Genre** | Arcade / endless side-scrolling runner / reflex-timing score-chaser |
 | **Target platform** | Android, PC (Windows), standalone build |
-| **Engine / Unity version** | Unity 6 (6000.3.12f1), URP, 3D |
+| **Engine / Unity version** | Unity 6 (6000.3.20f1), URP, 3D |
 | **Orientation & reference resolution** | Landscape, 1920x1080 reference |
 | **Expected session length** | 15 seconds - 3 minutes |
-| **Document version** | v0.8 - 2026-09-29 |
+| **Document version** | v0.9 - 2026-09-29 |
 
 ---
 
@@ -36,8 +36,7 @@ The player controls a runner constantly moving right at auto-scrolling speed bet
 - **Primary reference:** *Gravity Guy* (Miniclip, 2010) - landscape endless runner,
   single-button gravity flip, procedurally chained level segments. **Taking:** the core flip-gravity loop,
   the landscape corridor framing, segment-based level construction. **Not taking:** the ragdoll death
-  animation, the multi-chapter level art progression, time-trial/co-op modes
-  build.
+  animation, the multi-chapter level art progression, time-trial/co-op modes.
 - **Video:** original *Gravity Guy* gameplay https://youtu.be/Sdb7xFNk_nw?si=4Qafi_C8fFtZ_V3A&t=17
 
 <img width="640" height="360" alt="image" src="https://github.com/user-attachments/assets/76541fce-2d29-4349-bde3-7d7a94cf2de1" />
@@ -148,8 +147,8 @@ played for two minutes can chain 15+ consecutive flips without dying.
 
 **Licence note:** the Kenney.nl placeholders have all been replaced. The background, music and death SFX
 are CC0; the flip SFX is under the Pixabay Content License (free for personal and commercial use, no
-attribution required); the robot sprites are a free pack from pzuh. All are usable for this coursework build and a future public release.
-before submission - no asset will be used under a licence that forbids coursework use.
+attribution required); the robot sprites are a free pack from pzuh. All are usable for this coursework build and a future public release; no asset is used under a
+licence that forbids coursework use.
 
 **Technical art rules:** Point (no filter) import for all sprites, PPU 100, single `SpriteAtlas` for all
 gameplay sprites, sorting layers back→front: `Background` → `LevelGeometry` → `Hazards` → `Player` → `UI`.
@@ -213,28 +212,28 @@ graph TD
 
 ### 8.1 MVP - the game is not a game without these
 
-- [ ] Constant-speed runner with working gravity flip (floor↔ceiling) via keyboard/mouse and touch
-- [ ] Pooled, endlessly-spawning level segments with at least 3 hazard layouts and 1 clear layout
-- [ ] Hazard and gap collision detection ending the run
-- [ ] Distance-based score, displayed live during play
-- [ ] GetReady → Playing → GameOver state flow with sub-2-second restart
-- [ ] Best score persisted via `PlayerPrefs`
-- [ ] Working Android touch build
+- [x] Constant-speed runner with working gravity flip (floor↔ceiling) via keyboard/mouse and touch
+- [x] Pooled, endlessly-spawning level segments with at least 3 hazard layouts and 1 clear layout
+- [x] Hazard and gap collision detection ending the run
+- [x] Distance-based score, displayed live during play
+- [x] GetReady → Playing → GameOver state flow with sub-2-second restart
+- [x] Best score persisted via `PlayerPrefs`
+- [x] Working Android touch build
 
 ### 8.2 Polish - if the MVP is done and playable
 
-- [ ] Camera shake on death
-- [ ] Parallax scrolling background
-- [ ] Flip/death SFX and simple background music
-- [ ] Pause menu
-- [ ] Simple runner run-cycle animation
-- [ ] Low/high gravity zones - a level segment can carry a modified `gravityStrength` for its length
-- [ ] Low/high speed zones - a level segment can carry a modified `runSpeed` for its length
+- [x] Camera shake on death
+- [x] Parallax scrolling background
+- [x] Flip/death SFX and simple background music
+- [x] Pause menu
+- [x] Simple runner run-cycle animation
+- [ ] ~~Low/high gravity zones - a level segment can carry a modified `gravityStrength` for its length~~ (cut)
+- [ ] ~~Low/high speed zones - a level segment can carry a modified `runSpeed` for its length~~ (cut)
 
 **Note on the two zone features above:** pillar 2 (in section 1) commits the MVP to fixed gravity/speed constants
-for a run. These zone features are a deliberate, scoped exception considered only once the MVP is solid -
-each zone would still be hand-authored and tied to a specific pooled segment (not randomized), keeping
-death learnable and fair even though the constant is no longer global for the whole run.
+for a run. These zone features were a scoped exception to consider only once the MVP was solid. They were cut
+for this build: the global speed ramp (see `pointsPerSpeedStep`) already provides the difficulty progression,
+and keeping gravity/speed uniform within a speed step preserves pillar 2.
 
 ### 8.3 Explicitly out of scope - we are **not** building these
 
@@ -259,3 +258,4 @@ death learnable and fair even though the constant is no longer global for the wh
 | v0.6 | 2026-09-26 | Seamless space background (Screaming Brain Studios) replaces the Kenney backdrop. Speed text layout adjusted in the scene. Unity's default URP tutorial files removed. Fixed the runner row in the asset table. |
 | v0.7 | 2026-09-28 | 15 new segment prefabs covering new obstacle types (mines, floating platforms, spike carpets, pinch/jaws/split/rapid spike patterns, leap and crossover gaps) and 12 new segment groups (Middle Lane through Nightmare), for 21 segments and 24 groups in total. New death SFX ("Sci-Fi Gun 5") and flip SFX ("Pixel Jump"), both switched from .wav to .mp3. |
 | v0.8 | 2026-09-29 | New background music track (Seth_Makes_Sounds, freesound #684511). Segment floor/ceiling tiles widened from 9.8 to 10 u to close seams, and sorting layers fixed on all segment prefabs. Main-menu subtitle ("ONE INPUT. TOTAL COMMITMENT.") removed. GDD synced with the build: asset sources and licences updated, speed ramp and death animation allowed in scope, `segmentLength` overlap documented. |
+| v0.9 | 2026-09-29 | Android build verified on a physical device (Samsung, Android 16). Package name set to `com.tomerlevitski.gravityguy`; Android build profile switched to a non-development build, because Unity 6.3's development-build fast deploy fails to load game data on Android 16. Frame rate capped at 60 FPS (Android defaults to 30). The game auto-pauses when the app is sent to the background. Low/high gravity and speed zones cut from scope. Unity version updated to 6000.3.20f1. |
