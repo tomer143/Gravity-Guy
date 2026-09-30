@@ -1126,6 +1126,7 @@ GameObject:
   - component: {fileID: 595152769}
   - component: {fileID: 595152771}
   - component: {fileID: 595152770}
+  - component: {fileID: 595152790}
   m_Layer: 0
   m_Name: TapToFlipPrompt
   m_TagString: Untagged
@@ -1152,6 +1153,19 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &595152790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 595152768}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3e1f9a2b4d4e6f8a1b2c3d4e5f6a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: TO FLIP
 --- !u!114 &595152770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1172,7 +1186,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TAP SCREEN OR PRESS SPACE TO FLIP
+  m_text: PRESS SPACE TO FLIP
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3456,6 +3470,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6914642789133059501}
   m_CullTransparentMesh: 1
+--- !u!114 &6742446347537567090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8392968317806707082}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c3e1f9a2b4d4e6f8a1b2c3d4e5f6a71, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  action: TO START
 --- !u!114 &6742446347537567072
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3476,7 +3503,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: TAP SCREEN OR PRESS SPACE TO START
+  m_text: PRESS SPACE TO START
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3807,6 +3834,7 @@ GameObject:
   - component: {fileID: 1671651770926016287}
   - component: {fileID: 7429028493183776157}
   - component: {fileID: 6742446347537567072}
+  - component: {fileID: 6742446347537567090}
   m_Layer: 0
   m_Name: StartPrompt
   m_TagString: Untagged

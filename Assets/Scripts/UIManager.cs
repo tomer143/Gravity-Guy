@@ -128,7 +128,7 @@ public class UIManager : MonoBehaviour
         if (retryPromptText)
         {
             retryPromptText.gameObject.SetActive(allowRetry);
-            retryPromptText.text = "TAP OR SPACE TO RETRY";
+            retryPromptText.text = Application.isMobilePlatform ? "TAP RETRY" : "PRESS SPACE TO RETRY";
         }
     }
 
