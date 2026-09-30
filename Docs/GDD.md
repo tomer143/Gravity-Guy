@@ -9,7 +9,7 @@
 | **Engine / Unity version** | Unity 6 (6000.3.20f1), URP, 3D |
 | **Orientation & reference resolution** | Landscape, 1920x1080 reference |
 | **Expected session length** | 15 seconds - 3 minutes |
-| **Document version** | v0.9 - 2026-09-29 |
+| **Document version** | v0.10 - 2026-09-30 |
 
 ---
 
@@ -50,7 +50,7 @@ stateDiagram-v2
     [*] --> GetReady
     GetReady --> Playing: first tap
     Playing --> GameOver: hazard/gap collision
-    GameOver --> GetReady: tap (after 0.5s lockout)
+    GameOver --> GetReady: Retry button / Space / Enter (after 0.5s lockout)
 ```
 
 **Moment-to-moment rules:**
@@ -72,8 +72,8 @@ stateDiagram-v2
   segment layout.
 - **Failure:** touching a spike hazard, or the runner's collider clearing the near-edge of a floor/ceiling
   tile with nothing beneath/above it (a fall into a gap on the wrong side), ends the run immediately. On
-  death: physics/scrolling freeze, a 0.5 s input lockout starts, then a tap returns to `GetReady` and
-  reloads the run.
+  death: physics/scrolling freeze, a 0.5 s input lockout starts, then the Retry button (or Space/Enter on
+  keyboard) returns to `GetReady` and reloads the run.
 
 ### Parameters you will need to tune
 
@@ -101,8 +101,8 @@ played for two minutes can chain 15+ consecutive flips without dying.
 | Action | Keyboard / Mouse | Touch |
 |---|---|---|
 | Flip gravity | Space bar / Left mouse click | Tap anywhere on screen |
-| Confirm / Restart on Game Over | Space bar / Left mouse click | Tap anywhere on screen |
-| Pause | Escape | Pause button (top-corner UI) |
+| Confirm / Restart on Game Over | Space bar / Enter / click the Retry button | Tap the Retry button |
+| Pause | Escape | Pause button (top-right corner, pause icon) |
 
 - Input is read via Unity's Input System in `Update` (as an `InputAction` callback), buffered into a single
   pending-flip flag, and consumed in `FixedUpdate` so a flip that arrives while grounded always lands on a
@@ -113,17 +113,17 @@ played for two minutes can chain 15+ consecutive flips without dying.
   also trigger a gravity flip - handled via Unity UI's own event system blocking raycasts to gameplay input.
 - On the game-over screen, input is locked out for `0.5 s` after death (a dedicated timer, independent of
   the grounded-flip gating) to prevent the input that caused death from also instantly restarting the run.
+- Restarting from the game-over screen is deliberately narrower than flipping: only Space/Enter or the Retry button restart the run. A mouse click or tap elsewhere on the screen is ignored, so a panicked extra tap right after death cannot skip past the final score.
+- Prompt text is platform-specific: `PlatformPromptText` reads `Application.isMobilePlatform` and shows "TAP SCREEN ..." on mobile or "PRESS SPACE ..." on desktop, so each build only names the input it uses.
 
 ---
 
 ## 5. Screens & UI
 
-1. **Main Menu** - Title text "Gravity Guy", a "Tap to Start" prompt, best-score readout (from
-   `PlayerPrefs`). No settings menu, no level select.
-2. **Gameplay (GetReady/Playing)** - HUD only: current score (top-center), pause button (top-right corner).
-   "GetReady" state additionally shows a "Tap to Flip" prompt overlay that disappears on first input.
-3. **Game Over** - Final score, best score, a single "Tap to Retry" prompt. Appears after the 0.5 s
-   lockout described in sections 3 and 4.
+1. **Main Menu** - Title text "Gravity Guy", a start prompt ("PRESS SPACE TO START" on desktop,
+   "TAP SCREEN TO START" on mobile), best-score readout (from `PlayerPrefs`). No settings menu, no level select.
+2. **Gameplay (GetReady/Playing)** - HUD only: current score (top-center), pause button (top-right corner, a round button with a pause icon). "GetReady" state additionally shows a flip prompt ("PRESS SPACE TO FLIP" / "TAP SCREEN TO FLIP") that disappears on first input.
+3. **Game Over** - Final score, best score, a Retry button and a retry prompt ("PRESS SPACE TO RETRY" on desktop, "TAP RETRY" on mobile). Appears after the 0.5 s lockout described in sections 3 and 4.
 
 - **HUD during play:** score counter and pause button only. Deliberately absent: lives/health display,
   combo meter, minimap, ads/banner space.
@@ -144,6 +144,8 @@ played for two minutes can chain 15+ consecutive flips without dying.
 | Game music | 1 clip | "Simple Game Music Loop", https://freesound.org/people/Seth_Makes_Sounds/sounds/684511 (CC0) | Played in the background while the game is running |
 | Flip SFX | 1 clip | "Pixel Jump" by Lumora_Studios, https://pixabay.com/sound-effects/film-special-effects-pixel-jump-319167 (Pixabay Content License) | Played on each gravity flip |
 | Death SFX | 1 clip | "Sci-Fi Gun 5", https://licensing.routenote.com/sound-effect/sci-fi-gun-5 (CC0) | Played on hazard/gap collision |
+| Pause button | 2 sprites (round background + pause icon) | Generated for this project | HUD pause button |
+| Game icon | 1 image | Made for this project | Android launcher icon |
 
 **Licence note:** the Kenney.nl placeholders have all been replaced. The background, music and death SFX
 are CC0; the flip SFX is under the Pixabay Content License (free for personal and commercial use, no
@@ -184,7 +186,8 @@ graph TD
 | `PlayerController` | Reads buffered input, checks grounded state, flips gravity and mirrors the runner sprite, detects hazard/gap collisions |
 | `Spawner` | Requests/returns segments from `SegmentPool`, positions the next segment ahead of the runner |
 | `SegmentPool` | Wraps Unity's `ObjectPool<T>` for level-segment prefabs; hazards and clear segments alike |
-| `UIManager` | Updates HUD score text, shows/hides Menu/GetReady/GameOver panels |
+| `UIManager` | Updates HUD score text, shows/hides Menu/GetReady/GameOver panels, sets the platform-specific retry prompt |
+| `PlatformPromptText` | Sets a prompt label to "TAP SCREEN" or "PRESS SPACE" + its action ("TO START", "TO FLIP") depending on the platform |
 | `AudioManager` | Singleton; plays flip/death SFX on `GameManager` state and event callbacks |
 | `GameConfig` | ScriptableObject holding every tunable in section 3 parameter table |
 
@@ -204,7 +207,7 @@ graph TD
    without blocking `Update`/`FixedUpdate` and without a full state-machine or animation setup.
 4. **Mobile touch input** - the Input System's pointer/touch bindings drive the single flip action, and the
    HUD uses `CanvasScaler` *Scale With Screen Size* so the same build targets both the Windows PC
-   and an Android touch device without separate input code paths.
+   and an Android touch device without separate input code paths. Only the prompt text differs per platform (`PlatformPromptText`), so players are told to tap on a phone and press Space on PC.
 
 ---
 
@@ -259,3 +262,4 @@ and keeping gravity/speed uniform within a speed step preserves pillar 2.
 | v0.7 | 2026-09-28 | 15 new segment prefabs covering new obstacle types (mines, floating platforms, spike carpets, pinch/jaws/split/rapid spike patterns, leap and crossover gaps) and 12 new segment groups (Middle Lane through Nightmare), for 21 segments and 24 groups in total. New death SFX ("Sci-Fi Gun 5") and flip SFX ("Pixel Jump"), both switched from .wav to .mp3. |
 | v0.8 | 2026-09-29 | New background music track (Seth_Makes_Sounds, freesound #684511). Segment floor/ceiling tiles widened from 9.8 to 10 u to close seams, and sorting layers fixed on all segment prefabs. Main-menu subtitle ("ONE INPUT. TOTAL COMMITMENT.") removed. GDD synced with the build: asset sources and licences updated, speed ramp and death animation allowed in scope, `segmentLength` overlap documented. |
 | v0.9 | 2026-09-29 | Android build verified on a physical device (Samsung, Android 16). Package name set to `com.tomerlevitski.gravityguy`; Android build profile switched to a non-development build, because Unity 6.3's development-build fast deploy fails to load game data on Android 16. Frame rate capped at 60 FPS (Android defaults to 30). The game auto-pauses when the app is sent to the background. Low/high gravity and speed zones cut from scope. Unity version updated to 6000.3.20f1. |
+| v0.10 | 2026-09-30 | Prompt text is now platform-specific (`PlatformPromptText`): "TAP SCREEN TO START/FLIP" and "TAP RETRY" on mobile, "PRESS SPACE TO START/FLIP/RETRY" on desktop. On the game-over screen only Space/Enter or the Retry button restart the run; stray clicks/taps no longer do. Pause button restyled with generated background and pause-icon sprites. New Android game icon. |
