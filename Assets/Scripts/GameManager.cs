@@ -181,7 +181,7 @@ public class GameManager : MonoBehaviour
         }
         else if (currentState == GameState.GameOver)
         {
-            if (canRetry && WasAnyTapOrSpacePressed())
+            if (canRetry && WasRetryKeyPressed())
             {
                 OnRetryClicked();
             }
@@ -321,9 +321,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private bool WasRetryKeyPressed()
+    {
+        return Keyboard.current != null && (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame);
+    }
+
     private bool WasAnyTapOrSpacePressed()
     {
-        if (Keyboard.current != null && (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame))
+        if (WasRetryKeyPressed())
             return true;
 
         if (Mouse.current != null && Mouse.current.leftButton.wasPressedThisFrame)
